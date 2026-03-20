@@ -1,0 +1,1685 @@
+{
+  "info": {
+    "title": "Barong",
+    "description": "Management API for barong OAuth server",
+    "version": "2.7.0"
+  },
+  "swagger": "2.0",
+  "produces": [
+    "application/json"
+  ],
+  "securityDefinitions": {
+    "SecurityScope": {
+      "description": "JWT should have signature keychains",
+      "type": "basic",
+      "name": "Authorization"
+    }
+  },
+  "host": "localhost:3000",
+  "basePath": "/api/v2/management",
+  "tags": [
+    {
+      "name": "api",
+      "description": "Operations about apis"
+    }
+  ],
+  "paths": {
+    "/api/v2/management/labels/delete": {
+      "post": {
+        "description": "Delete a label with 'private' scope",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "user_uid",
+            "description": "User uid",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "key",
+            "description": "Label key.",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Delete a label with 'private' scope"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2BarongManagementLabelsDelete"
+      }
+    },
+    "/api/v2/management/labels": {
+      "put": {
+        "description": "Update a label with 'private' scope",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "user_uid",
+            "description": "User uid",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "key",
+            "description": "Label key.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "value",
+            "description": "Label value.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "description",
+            "description": "Label desc.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "replace",
+            "description": "When true label will be created if not exist",
+            "type": "boolean",
+            "default": true,
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Update a label with 'private' scope",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Entities_Label"
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "putApiV2BarongManagementLabels"
+      },
+      "post": {
+        "description": "Create a label with 'private' scope and assigns to users",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "user_uid",
+            "description": "User uid",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "key",
+            "description": "Label key.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "value",
+            "description": "Label value.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "description",
+            "description": "Label desc.",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Create a label with 'private' scope and assigns to users",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Entities_Label"
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2BarongManagementLabels"
+      }
+    },
+    "/api/v2/management/labels/list": {
+      "post": {
+        "description": "Get user collection filtered on label attributes",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "user_uid",
+            "description": "User uid",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Get user collection filtered on label attributes",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Entities_AdminLabelView"
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2BarongManagementLabelsList"
+      }
+    },
+    "/api/v2/management/labels/filter/users": {
+      "post": {
+        "description": "Get all labels assigned to users",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "key",
+            "description": "Label key.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "value",
+            "description": "Label value.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "scope",
+            "description": "Label scope.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "extended",
+            "description": "When true endpoint returns full information about users",
+            "type": "boolean",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "range",
+            "type": "string",
+            "default": "created",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "page",
+            "description": "Page number (defaults to 1).",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "limit",
+            "description": "Number of users per page (defaults to 100, maximum is 100).",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 100,
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Get all labels assigned to users",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Entities_User"
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2BarongManagementLabelsFilterUsers"
+      }
+    },
+    "/api/v2/management/users/import": {
+      "post": {
+        "description": "Imports an existing user",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "email",
+            "description": "User Email",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "password_digest",
+            "description": "User Password Hash",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "referral_uid",
+            "description": "Referral uid",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "phone",
+            "description": "Phone",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "first_name",
+            "description": "First Name",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "last_name",
+            "description": "Last Name",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "dob",
+            "description": "Birth date",
+            "type": "string",
+            "format": "date",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "address",
+            "description": "Address",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "postcode",
+            "description": "Postcode",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "city",
+            "description": "City",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "country",
+            "description": "Country",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "state",
+            "description": "State",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Imports an existing user",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Management_Entities_UserWithProfile"
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2BarongManagementUsersImport"
+      }
+    },
+    "/api/v2/management/users/update": {
+      "post": {
+        "description": "Updates role and data fields of existing user",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "uid",
+            "description": "User Uid",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "role",
+            "description": "User Role",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "data",
+            "description": "Any additional key:value pairs in json format",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Updates role and data fields of existing user",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Management_Entities_UserWithProfile"
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2BarongManagementUsersUpdate"
+      }
+    },
+    "/api/v2/management/users": {
+      "post": {
+        "description": "Creates new user",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "email",
+            "description": "User Email",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "password",
+            "description": "User Password",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "referral_uid",
+            "description": "Referral uid",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Creates new user",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Management_Entities_UserWithProfile"
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2BarongManagementUsers"
+      }
+    },
+    "/api/v2/management/users/list": {
+      "post": {
+        "description": "Returns array of users as collection",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "extended",
+            "description": "When true endpoint returns full information about users",
+            "type": "boolean",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "range",
+            "type": "string",
+            "default": "created",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "from",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only records FROM the time will be retrieved.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "to",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only records BEFORE the time will be retrieved.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "page",
+            "description": "Page number (defaults to 1).",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "limit",
+            "description": "Number of users per page (defaults to 100, maximum is 100).",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 100,
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Returns array of users as collection",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Entities_User"
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2BarongManagementUsersList"
+      }
+    },
+    "/api/v2/management/users/get": {
+      "post": {
+        "description": "Get users and profile information",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "uid",
+            "description": "User uid",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "email",
+            "description": "User email",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "phone_num",
+            "description": "User phone number",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Get users and profile information",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Management_Entities_UserWithKYC"
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2BarongManagementUsersGet"
+      }
+    },
+    "/api/v2/management/profiles": {
+      "post": {
+        "description": "Imports a profile for user",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "uid",
+            "description": "User Uid",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "first_name",
+            "description": "First Name",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "last_name",
+            "description": "Last Name",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "dob",
+            "description": "Birth date",
+            "type": "string",
+            "format": "date",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "address",
+            "description": "Address",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "postcode",
+            "description": "Postcode",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "city",
+            "description": "City",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "country",
+            "description": "Country",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "state",
+            "description": "State",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "metadata",
+            "description": "Metadata",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Imports a profile for user",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Management_Entities_UserWithProfile"
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2BarongManagementProfiles"
+      }
+    },
+    "/api/v2/management/phones/delete": {
+      "post": {
+        "description": "Delete phone number for user",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "uid",
+            "description": "User uid",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "number",
+            "description": "User phone number",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Delete phone number for user",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Management_Entities_Phone"
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2BarongManagementPhonesDelete"
+      }
+    },
+    "/api/v2/management/phones": {
+      "post": {
+        "description": "Create phone number for user",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "uid",
+            "description": "User uid",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "number",
+            "description": "User phone number",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Create phone number for user",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Management_Entities_Phone"
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2BarongManagementPhones"
+      }
+    },
+    "/api/v2/management/phones/get": {
+      "post": {
+        "description": "Get user phone numbers",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "uid",
+            "description": "User uid",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Get user phone numbers",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Management_Entities_Phone"
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2BarongManagementPhonesGet"
+      }
+    },
+    "/api/v2/management/otp/sign": {
+      "post": {
+        "description": "Sign request with barong signature",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "user_uid",
+            "description": "Account UID",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "otp_code",
+            "description": "Code from Google Authenticator",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Sign request with barong signature"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2BarongManagementOtpSign"
+      }
+    },
+    "/api/v2/management/documents": {
+      "post": {
+        "description": "Push documents to barong DB",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "uid",
+            "description": "User uid",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "doc_type",
+            "description": "Document type",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "doc_number",
+            "description": "Document number",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "filename",
+            "description": "Document name",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "file_ext",
+            "description": "Document file extension",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "upload",
+            "description": "Base64 encoded document",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "doc_expire",
+            "description": "Document expiration date",
+            "type": "string",
+            "format": "date",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "update_labels",
+            "description": "If set to false, user label will not be created/updated",
+            "type": "boolean",
+            "default": true,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "metadata",
+            "description": "Any additional key: value pairs in json string format",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Push documents to barong DB"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2BarongManagementDocuments"
+      }
+    },
+    "/api/v2/management/service_accounts/delete": {
+      "post": {
+        "description": "Delete specific service_account",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "uid",
+            "description": "service_account uid",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Delete specific service_account",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Entities_ServiceAccounts"
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2BarongManagementServiceAccountsDelete"
+      }
+    },
+    "/api/v2/management/service_accounts/create": {
+      "post": {
+        "description": "Create service_account",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "owner_uid",
+            "description": "owner uid",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "service_account_role",
+            "description": "service_account role",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "service_account_uid",
+            "description": "service_account uid",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "service_account_email",
+            "description": "service_account email",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Create service_account",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Entities_ServiceAccounts"
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2BarongManagementServiceAccountsCreate"
+      }
+    },
+    "/api/v2/management/service_accounts/list": {
+      "post": {
+        "description": "Get service_accounts as a paginated collection",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "page",
+            "description": "Page number (defaults to 1).",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "limit",
+            "description": "Number of users per page (defaults to 100, maximum is 100).",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 100,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "owner_uid",
+            "description": "owner uid",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "owner_email",
+            "description": "owner email",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Get service_accounts as a paginated collection",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Entities_ServiceAccounts"
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2BarongManagementServiceAccountsList"
+      }
+    },
+    "/api/v2/management/service_accounts/get": {
+      "post": {
+        "description": "Get specific service_account information",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "uid",
+            "description": "service_account uid",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "email",
+            "description": "service_account email",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Get specific service_account information",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Entities_ServiceAccounts"
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2BarongManagementServiceAccountsGet"
+      }
+    },
+    "/api/v2/management/timestamp": {
+      "post": {
+        "description": "Returns server time in seconds since Unix epoch.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "Returns server time in seconds since Unix epoch."
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2BarongManagementTimestamp"
+      }
+    }
+  },
+  "definitions": {
+    "API_V2_Entities_Label": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "Label key. [a-z0-9_-]+ should be used. Min - 3, max - 255 characters."
+        },
+        "value": {
+          "type": "string",
+          "description": "Label value. [A-Za-z0-9_-] should be used. Min - 3, max - 255 characters."
+        },
+        "scope": {
+          "type": "string",
+          "description": "Label scope: 'public' or 'private'"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      },
+      "description": "Create a label with 'private' scope and assigns to users"
+    },
+    "API_V2_Entities_AdminLabelView": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "Label key. [a-z0-9_-]+ should be used. Min - 3, max - 255 characters."
+        },
+        "value": {
+          "type": "string",
+          "description": "Label value. [A-Za-z0-9_-] should be used. Min - 3, max - 255 characters."
+        },
+        "scope": {
+          "type": "string",
+          "description": "Label scope: 'public' or 'private'"
+        },
+        "description": {
+          "type": "string",
+          "description": "Label desc: json string with any additional information"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      },
+      "description": "Get user collection filtered on label attributes"
+    },
+    "API_V2_Entities_User": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "User Email"
+        },
+        "uid": {
+          "type": "string",
+          "description": "User UID"
+        },
+        "role": {
+          "type": "string",
+          "description": "User role"
+        },
+        "level": {
+          "type": "integer",
+          "format": "int32",
+          "description": "User level"
+        },
+        "otp": {
+          "type": "boolean",
+          "description": "is 2FA enabled for account"
+        },
+        "state": {
+          "type": "string",
+          "description": "User state: active, pending, inactive"
+        },
+        "referral_uid": {
+          "type": "string",
+          "description": "UID of referrer"
+        },
+        "data": {
+          "type": "string",
+          "description": "Additional phone and profile info"
+        }
+      },
+      "description": "Returns array of users as collection"
+    },
+    "API_V2_Management_Entities_UserWithProfile": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "User Email"
+        },
+        "uid": {
+          "type": "string",
+          "description": "User UID"
+        },
+        "role": {
+          "type": "string",
+          "description": "User role"
+        },
+        "level": {
+          "type": "integer",
+          "format": "int32",
+          "description": "User level"
+        },
+        "otp": {
+          "type": "boolean",
+          "description": "is 2FA enabled for account"
+        },
+        "state": {
+          "type": "string",
+          "description": "User state: active, pending, inactive"
+        },
+        "referral_uid": {
+          "type": "string",
+          "description": "UID of referrer"
+        },
+        "data": {
+          "type": "string",
+          "description": "Additional phone and profile info"
+        },
+        "profiles": {
+          "$ref": "#/definitions/API_V2_Management_Entities_Profile"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      },
+      "description": "Imports a profile for user"
+    },
+    "API_V2_Management_Entities_Profile": {
+      "type": "object",
+      "properties": {
+        "first_name": {
+          "type": "string",
+          "description": "First Name"
+        },
+        "last_name": {
+          "type": "string",
+          "description": "Last name"
+        },
+        "dob": {
+          "type": "string",
+          "format": "date",
+          "description": "Birth date"
+        },
+        "address": {
+          "type": "string",
+          "description": "Address"
+        },
+        "postcode": {
+          "type": "string",
+          "description": "Address Postcode"
+        },
+        "city": {
+          "type": "string",
+          "description": "City name"
+        },
+        "country": {
+          "type": "string",
+          "description": "Country name"
+        },
+        "state": {
+          "type": "string",
+          "description": "Profile state: drafted, submitted, verified, rejected"
+        },
+        "metadata": {
+          "type": "object",
+          "description": "Profile additional fields"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      }
+    },
+    "API_V2_Management_Entities_UserWithKYC": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "User Email"
+        },
+        "uid": {
+          "type": "string",
+          "description": "User UID"
+        },
+        "role": {
+          "type": "string",
+          "description": "User role"
+        },
+        "level": {
+          "type": "integer",
+          "format": "int32",
+          "description": "User level"
+        },
+        "otp": {
+          "type": "boolean",
+          "description": "is 2FA enabled for account"
+        },
+        "state": {
+          "type": "string",
+          "description": "User state: active, pending, inactive"
+        },
+        "referral_uid": {
+          "type": "string",
+          "description": "UID of referrer"
+        },
+        "data": {
+          "type": "string",
+          "description": "Additional phone and profile info"
+        },
+        "profiles": {
+          "$ref": "#/definitions/API_V2_Management_Entities_Profile"
+        },
+        "labels": {
+          "$ref": "#/definitions/API_V2_Entities_AdminLabelView"
+        },
+        "phones": {
+          "$ref": "#/definitions/API_V2_Management_Entities_Phone"
+        },
+        "documents": {
+          "$ref": "#/definitions/API_V2_Management_Entities_Document"
+        },
+        "data_storages": {
+          "$ref": "#/definitions/API_V2_Entities_DataStorage"
+        },
+        "comments": {
+          "$ref": "#/definitions/API_V2_Entities_Comment"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      },
+      "description": "Get users and profile information"
+    },
+    "API_V2_Management_Entities_Phone": {
+      "type": "object",
+      "properties": {
+        "country": {
+          "type": "string",
+          "description": "Phone country"
+        },
+        "number": {
+          "type": "string",
+          "description": "Phone Number"
+        },
+        "validated_at": {
+          "type": "s",
+          "format": "g",
+          "description": "Phone validation date"
+        }
+      },
+      "description": "Get user phone numbers"
+    },
+    "API_V2_Management_Entities_Document": {
+      "type": "object",
+      "properties": {
+        "upload": {
+          "type": "string",
+          "description": "File url"
+        },
+        "doc_type": {
+          "type": "string",
+          "description": "Document type: passport, driver license, utility bill, identity card, institutional, address, residental"
+        },
+        "doc_number": {
+          "type": "string",
+          "description": "Document number: AB123123 type"
+        },
+        "doc_expire": {
+          "type": "string",
+          "description": "Expire date of uploaded documents"
+        },
+        "metadata": {
+          "type": "string",
+          "description": "Any additional stored data"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      }
+    },
+    "API_V2_Entities_DataStorage": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Any additional data title"
+        },
+        "data": {
+          "type": "string",
+          "description": "Any additional data json key:value pairs"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      }
+    },
+    "API_V2_Entities_Comment": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Comment id"
+        },
+        "author_uid": {
+          "type": "string",
+          "description": "Comment author UID"
+        },
+        "title": {
+          "type": "string",
+          "description": "Comment title"
+        },
+        "data": {
+          "type": "string",
+          "description": "Comment plain text"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      }
+    },
+    "API_V2_Entities_ServiceAccounts": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "User Email"
+        },
+        "uid": {
+          "type": "string",
+          "description": "User UID"
+        },
+        "role": {
+          "type": "string",
+          "description": "Service Account Role"
+        },
+        "level": {
+          "type": "integer",
+          "format": "int32",
+          "description": "User Level"
+        },
+        "state": {
+          "type": "string",
+          "description": "Service Account State: active, disabled"
+        },
+        "user": {
+          "$ref": "#/definitions/API_V2_Entities_User"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      },
+      "description": "Get specific service_account information"
+    },
+    "API_V2_Entities_APIKey": {
+      "type": "object",
+      "properties": {
+        "kid": {
+          "type": "string",
+          "description": "JWT public key"
+        },
+        "algorithm": {
+          "type": "string",
+          "description": "Cryptographic hash function type"
+        },
+        "scope": {
+          "type": "string",
+          "description": "Serialized array of scopes"
+        },
+        "state": {
+          "type": "string",
+          "description": "active/non-active state of key"
+        },
+        "secret": {
+          "type": "string",
+          "description": "Api key secret"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      }
+    },
+    "API_V2_Entities_UserWithFullInfo": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "User Email"
+        },
+        "uid": {
+          "type": "string",
+          "description": "User UID"
+        },
+        "role": {
+          "type": "string",
+          "description": "User role"
+        },
+        "level": {
+          "type": "integer",
+          "format": "int32",
+          "description": "User level"
+        },
+        "otp": {
+          "type": "boolean",
+          "description": "is 2FA enabled for account"
+        },
+        "state": {
+          "type": "string",
+          "description": "User state: active, pending, inactive"
+        },
+        "referral_uid": {
+          "type": "string",
+          "description": "UID of referrer"
+        },
+        "data": {
+          "type": "string",
+          "description": "Additional phone and profile info"
+        },
+        "csrf_token": {
+          "type": "string",
+          "description": "Сsrf protection token"
+        },
+        "labels": {
+          "$ref": "#/definitions/API_V2_Entities_Label"
+        },
+        "phones": {
+          "$ref": "#/definitions/API_V2_Entities_Phone"
+        },
+        "profiles": {
+          "$ref": "#/definitions/API_V2_Entities_Profile"
+        },
+        "data_storages": {
+          "$ref": "#/definitions/API_V2_Entities_DataStorage"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      }
+    },
+    "API_V2_Entities_Phone": {
+      "type": "object",
+      "properties": {
+        "country": {
+          "type": "string",
+          "description": "Phone country"
+        },
+        "number": {
+          "type": "string",
+          "description": "Submasked phone number"
+        },
+        "validated_at": {
+          "type": "s",
+          "format": "g",
+          "description": "Phone validation date"
+        }
+      }
+    },
+    "API_V2_Entities_Profile": {
+      "type": "object",
+      "properties": {
+        "first_name": {
+          "type": "string",
+          "description": "First Name"
+        },
+        "last_name": {
+          "type": "string",
+          "description": "Submasked last name"
+        },
+        "dob": {
+          "type": "string",
+          "format": "date",
+          "description": "Submasked birth date"
+        },
+        "address": {
+          "type": "string",
+          "description": "Address"
+        },
+        "postcode": {
+          "type": "string",
+          "description": "Address Postcode"
+        },
+        "city": {
+          "type": "string",
+          "description": "City name"
+        },
+        "country": {
+          "type": "string",
+          "description": "Country name"
+        },
+        "state": {
+          "type": "string",
+          "description": "Profile state: drafted, submitted, verified, rejected"
+        },
+        "metadata": {
+          "type": "object",
+          "description": "Profile additional fields"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
