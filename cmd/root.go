@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"barong-cli/cmd/management"
 	"barong-cli/cmd/user"
 
 	"github.com/spf13/cobra"
@@ -26,6 +27,7 @@ func Execute() {
 func init() {
 	rootCmd.PersistentFlags().StringVar(&baseURL, "url", "", "Barong server base URL (overrides BARONG_URL)")
 	rootCmd.AddCommand(user.NewUserCmd(getBaseURL))
+	rootCmd.AddCommand(management.NewManagementCmd(getBaseURL))
 }
 
 func getBaseURL() string {
