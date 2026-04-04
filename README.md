@@ -121,6 +121,76 @@ barong-cli user otp enable --code 123456
 |------|----------|-------------|
 | `--code` | yes | Code from your authenticator app |
 
+### Service accounts
+
+```bash
+# List all service accounts for the current user
+barong-cli user service-account list
+```
+
+### API keys
+
+```bash
+# List API keys for the current account
+barong-cli user api-key list
+
+# List API keys for a service account
+barong-cli user api-key list --service-account-uid SA456
+
+# Create an API key
+barong-cli user api-key create --algorithm RS256 --totp-code 123456
+
+# Create an API key for a service account
+barong-cli user api-key create --algorithm RS256 --totp-code 123456 --service-account-uid SA456
+
+# Update an API key
+barong-cli user api-key update <kid> --totp-code 123456 --state active
+
+# Update an API key for a service account
+barong-cli user api-key update <kid> --totp-code 123456 --service-account-uid SA456 --scope read,write
+
+# Delete an API key
+barong-cli user api-key delete <kid> --totp-code 123456
+
+# Delete an API key for a service account
+barong-cli user api-key delete <kid> --totp-code 123456 --service-account-uid SA456
+```
+
+**`list` flags**
+
+| Flag | Required | Description |
+|------|----------|-------------|
+| `--service-account-uid` | no | List keys for this service account instead of the current user |
+| `--page` | no | Page number |
+| `--limit` | no | Results per page (max 100) |
+| `--order-by` | no | Field to sort by |
+| `--ordering` | no | Sort order (`asc` or `desc`) |
+
+**`create` flags**
+
+| Flag | Required | Description |
+|------|----------|-------------|
+| `--algorithm` | yes | Key algorithm (e.g. `RS256`) |
+| `--totp-code` | yes | Code from your authenticator app |
+| `--scope` | no | Comma-separated scopes |
+| `--service-account-uid` | no | Create key for this service account instead of the current user |
+
+**`update <kid>` flags**
+
+| Flag | Required | Description |
+|------|----------|-------------|
+| `--totp-code` | yes | Code from your authenticator app |
+| `--scope` | no | Comma-separated scopes |
+| `--state` | no | Key state (`active` or `disabled`) |
+| `--service-account-uid` | no | Update key for this service account instead of the current user |
+
+**`delete <kid>` flags**
+
+| Flag | Required | Description |
+|------|----------|-------------|
+| `--totp-code` | yes | Code from your authenticator app |
+| `--service-account-uid` | no | Delete key for this service account instead of the current user |
+
 ---
 
 ## Management API (`barong-cli management`)

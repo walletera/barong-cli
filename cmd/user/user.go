@@ -13,6 +13,8 @@ func NewUserCmd(getBaseURL func() string) *cobra.Command {
 	cmd.AddCommand(newLogoutCmd(getBaseURL))
 	cmd.AddCommand(newMeCmd(getBaseURL))
 	cmd.AddCommand(newOTPCmd(getBaseURL))
+	cmd.AddCommand(newAPIKeyCmd(getBaseURL))
+	cmd.AddCommand(newServiceAccountCmd(getBaseURL))
 
 	return cmd
 }

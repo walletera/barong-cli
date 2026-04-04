@@ -133,6 +133,7 @@ The JWT claims include standard fields (`iat`, `exp` 30 s, `jti` random) plus a 
 
 ## API Response Quirks
 
+- **User API path prefix:** all User API endpoints use `/api/v1/auth/` as the path prefix (e.g. `/api/v1/auth/resource/api_keys`). The Swagger spec in `barong-docs/swagger/user_api.json` incorrectly shows `/api/v2/` paths — always use the Markdown docs in `barong-docs/barong_user_api_v2.md` as the authoritative source for User API paths.
 - **`OTPQRCode.Barcode`** is a base64-encoded PNG image, not an OTP URI. The `otpauth://` URI is in `OTPQRCode.URL`. Do not pass `Barcode` to a QR encoder — decode it with `base64.StdEncoding.DecodeString` and write the raw bytes to a file.
 - **Management API** returns HTTP 201 for most operations (including list and get endpoints), not 200.
 

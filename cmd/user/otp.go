@@ -18,6 +18,7 @@ func newOTPCmd(getBaseURL func() string) *cobra.Command {
 
     cmd.AddCommand(newOTPGenerateQRCodeCmd(getBaseURL))
     cmd.AddCommand(newOTPEnableCmd(getBaseURL))
+    cmd.AddCommand(newOTPDisableCmd(getBaseURL))
 
     return cmd
 }
@@ -90,6 +91,31 @@ func openFile(path string) error {
         opener = "xdg-open"
     }
     return exec.Command(opener, path).Start()
+}
+
+func newOTPDisableCmd(getBaseURL func() string) *cobra.Command {
+    var code string
+
+    cmd := &cobra.Command{
+        Use:   "disable",
+        Short: "Disable 2FA using a code from your authenticator app",
+        RunE: func(cmd *cobra.Command, args []string) error {
+            client, err := newAuthenticatedClient(getBaseURL())
+            if err != nil {
+                return err
+            }
+            if err := client.DisableOTP(code); err != nil {
+                return err
+            }
+            fmt.Println("2FA disabled")
+            return nil
+        },
+    }
+
+    cmd.Flags().StringVar(&code, "code", "", "Code from Google Authenticator (required)")
+    _ = cmd.MarkFlagRequired("code")
+
+    return cmd
 }
 
 func newOTPEnableCmd(getBaseURL func() string) *cobra.Command {
