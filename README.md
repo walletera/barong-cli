@@ -323,6 +323,58 @@ barong-cli management timestamp
 
 ---
 
+## Auth Debug (`barong-cli auth-debug`)
+
+Sends a GET request to Barong's `/api/v2/auth/{path}` endpoint and prints the response headers. Useful for manually testing how Barong resolves authentication and what JWT claims it would inject into a downstream request.
+
+```bash
+barong-cli auth-debug <test-path> [flags]
+```
+
+`<test-path>` is the downstream path being tested, e.g. `api/v1/payments`.
+
+### Authentication
+
+Two auth methods are supported. If neither API key flag is set, the command falls back to the saved session cookie (`~/.barong-cli/session.json`).
+
+| Flag | Description |
+|------|-------------|
+| `--api-key-kid` | API key ID — switches to API key auth |
+| `--api-key-secret` | API key HMAC secret (required when `--api-key-kid` is set) |
+
+### Examples
+
+```bash
+# Using the active session cookie
+barong-cli auth-debug api/v1/payments
+
+# Using an API key
+barong-cli auth-debug api/v1/payments \
+  --api-key-kid 71052995e443c247 \
+  --api-key-secret 7ce5bf89cd53f350c797f6a31a80c435
+```
+
+### Output
+
+Response headers are printed to stdout. The status line goes to stderr. If the response includes an `Authorization: Bearer <JWT>` header, its payload is base64-decoded and pretty-printed as JSON below the headers:
+
+```
+Authorization: Bearer eyJ...
+...
+
+Authorization JWT payload:
+{
+  "uid": "SI6940BA5C62",
+  "email": "johndoe@example.com",
+  "role": "customer",
+  "level": 3,
+  "state": "active",
+  ...
+}
+```
+
+---
+
 ## Session storage
 
 The User API session cookie is stored at `~/.barong-cli/session.json` with `0600` permissions. It is read automatically by any command that requires authentication and deleted on logout.

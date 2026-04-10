@@ -46,24 +46,28 @@ barong-cli/
 │   │   ├── create.go
 │   │   ├── me.go
 │   │   └── otp.go
-│   └── management/      # Management API commands
-│       ├── management.go        # Registers subcommands under "management"; --key-id and --private-key-file persistent flags
-│       ├── auth.go              # newManagementClient helper (loads RSA key, creates pkg/management.Client)
-│       ├── users.go
-│       ├── labels.go
-│       ├── profiles.go
-│       ├── phones.go
-│       ├── documents.go
-│       ├── service_accounts.go
-│       ├── otp.go
-│       └── timestamp.go
+│   ├── management/      # Management API commands
+│   │   ├── management.go        # Registers subcommands under "management"; --key-id and --private-key-file persistent flags
+│   │   ├── auth.go              # newManagementClient helper (loads RSA key, creates pkg/management.Client)
+│   │   ├── users.go
+│   │   ├── labels.go
+│   │   ├── profiles.go
+│   │   ├── phones.go
+│   │   ├── documents.go
+│   │   ├── service_accounts.go
+│   │   ├── otp.go
+│   │   └── timestamp.go
+│   └── authdebug/       # Auth debug command (top-level, not under user or management)
+│       └── authdebug.go # auth-debug command; session-cookie or API key auth
 ├── pkg/
 │   ├── user/            # User API client
 │   │   ├── client.go    # HTTP client, Login/Logout/GetMe/OTP methods
 │   │   └── models.go    # Response structs (UserWithFullInfo, OTPQRCode, …)
-│   └── management/      # Management API client
-│       ├── client.go    # HTTP client with JWT multisig auth; one method per endpoint
-│       └── models.go    # Response structs (UserWithProfile, UserWithKYC, Label, Phone, …)
+│   ├── management/      # Management API client
+│   │   ├── client.go    # HTTP client with JWT multisig auth; one method per endpoint
+│   │   └── models.go    # Response structs (UserWithProfile, UserWithKYC, Label, Phone, …)
+│   └── authdebug/       # Auth debug client
+│       └── client.go    # GET /api/v2/auth/{path}; session-cookie or API key auth
 ├── internal/
 │   └── session/
 │       └── session.go   # Save/Load/Delete session cookies (~/.barong-cli/session.json)
@@ -89,6 +93,8 @@ There are three Barong APIs (v2.7.0), each with Markdown docs and a Swagger/Open
 - **Admin API** (`admin_api.json`) — user management, document verification, KYC, user attributes (not yet implemented)
 - **User API** (`user_api.json`) — session management, identity operations, OTP
 - **Management API** (`management_api.json`) — label management, user/profile/phone/document/service-account operations
+
+The **auth controller** (`/api/v2/auth/{path}`) is a separate Barong endpoint outside the three APIs above. It validates incoming credentials and returns a signed JWT in the `Authorization` header for downstream services. The `auth-debug` command targets this endpoint.
 
 When implementing a new command, consult the corresponding Markdown doc and Swagger spec in `barong-docs/` for request/response shapes and authentication requirements.
 

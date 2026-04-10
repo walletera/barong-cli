@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"barong-cli/cmd/authdebug"
 	"barong-cli/cmd/management"
 	"barong-cli/cmd/user"
 
@@ -28,6 +29,7 @@ func init() {
 	rootCmd.PersistentFlags().StringVar(&baseURL, "url", "", "Barong server base URL (overrides BARONG_URL)")
 	rootCmd.AddCommand(user.NewUserCmd(getBaseURL))
 	rootCmd.AddCommand(management.NewManagementCmd(getBaseURL))
+	rootCmd.AddCommand(authdebug.NewAuthDebugCmd(getBaseURL))
 }
 
 func getBaseURL() string {
